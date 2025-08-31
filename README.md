@@ -10,7 +10,9 @@
     - spring validation libraries, springdoc-openapi-starter-webmvc-ui, lombok, devtools
 
 ### Tasks
-* [x] Creation of Entities named Book, Author, Publisher, BookUser, and User and @OneToMany implementation 
+* [x] Creation of Entities named Book, Author, Publisher, BookUser, and User and @OneToMany implementation
+* [x] BookUserId as embeddable(reusable component) embedded into BookUser entity
+* [x] Added @OneToMany in Book with Author and Publisher entities
 * [x] Data manipulation with MySQL
 * [x] Data retrieval with JPA - EntityManager to interact with the persistence context(crud actions)
 * [x] Controller code and view pages

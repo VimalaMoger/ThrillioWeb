@@ -57,5 +57,5 @@
 
 ### Entity Relationship Diagram- 
 Database schema, tables, columns and relationship between them
-![ERD](assets/dbDiagram.PNG)
+![ERD](assets/dbDiagram.png)
 

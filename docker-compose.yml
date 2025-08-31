@@ -10,7 +10,7 @@ services:
        DB_PORT: 3306
        DB_URL: JDBC:MYSQL://san-mysql:3306/book_db?createDatabaseIfNotExists=true&serverTimezone=UTC
        DB_USER: root
-       DB_PASSWORD: passworD$123!
+       DB_PASSWORD: password
        DB_NAME: book_db
     depends_on:
       san-mysql:
@@ -22,7 +22,7 @@ services:
       - "3307:3306"
     environment:
       MYSQL_ROOT_PASSWORD: passworD$123!
-      MYSQL_PASSWORD: passworD$123!
+      MYSQL_PASSWORD: password
       MYSQL_DATABASE: book_db
     healthcheck:
       test: [ "CMD", "mysqladmin","ping","-h","localhost" ]

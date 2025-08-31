@@ -50,10 +50,10 @@
             -  docker pull mysql:latest
             -  docker run -d -p 3308:3306 --name=san-mysql --env="MYSQL_ROOT_PASSWORD=password" --env="MYSQL_PASSWORD=password" --env="MYSQL_DATABASE=book_db" mysql
           Build an Image from a Dockerfile:    
-            -  docker build -t book .
+            -  docker build -t book-image .
           Create and run a container from an image, publish its port to mysql host:
             -  docker run -t --link san-mysql:mysql -p 8080:8080 book-image
-      docker-compose.yml
+      docker-compose.yml (book-v1)
         -  docker-compose build
         -  docker-compose up
 

@@ -1,123 +1,151 @@
 package com.moger.demo.controller;
 
-
-import com.moger.demo.entities.Book;
-import com.moger.demo.entities.User;
+import com.moger.demo.dataConstants.BookGenre;
+import com.moger.demo.config.AppConfig;
+import com.moger.demo.entities.*;
 import com.moger.demo.service.BookService;
+import com.moger.demo.customValidators.BookValidator;
+import com.moger.demo.service.UserService;
+import com.moger.demo.serviceImp.BookDTOService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import jakarta.validation.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import java.util.Collection;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
+
+@Validated
 @Controller
-public class  BookController{
+public class BookController {
+
 	@Autowired
-	PasswordEncoder passwordEncoder;
+	private AppConfig appConfig;
+
+	@InitBinder("book")
+	protected void initBookBinder(WebDataBinder binder) {
+		binder.setValidator(new BookValidator());
+	}
+
 	String email;
 	private BookService service;
-	public BookController(BookService service) {
-		super();
+	private UserService userService;
+
+	// Temporary in-memory storage - for bookmarking books
+	private final Map<Long, BookDTO> bookmarks = new ConcurrentHashMap<>();
+
+	public BookController(BookService service, UserService userService, AppConfig appConfig) {
 		this.service = service;
+		this.userService = userService;
+		this.appConfig = appConfig;
 	}
-	
-	@GetMapping("/books")
-	public String listBooks(Model model) {
-		List<Book> books =service.getAllBooks();
-		model.addAttribute("books", books);
-		model.addAttribute("message", email);
-		return "book";
-	}
-	
-	@GetMapping("/book/new")
-	public String AddBook(Model model) {
+
+	@GetMapping("/books/new")
+	public String add_Book(Model model, HttpSession session) {
+
+		String email = (String) session.getAttribute("name");
 		//create object to hold data
-		Book book= new Book(); 
+		Book book= new Book();
 		model.addAttribute("book", book);
-		return "Add_book";
-				
+		model.addAttribute("message", email);
+
+		return "add_book";
 	}
-	@PostMapping("/book")
-	public String saveBook(@ModelAttribute("book") Book book) {
-		service.saveBookInfo(book);
+
+	//saving book into book and bookUser
+	@PostMapping("/books/new")
+	public String save_added_Book(@Valid @ModelAttribute("book") Book book, BindingResult result, HttpSession session) {
+
+        if(result.hasErrors())
+            return "redirect:/books/new";
+
+		String name = book.getGenre().getName().toUpperCase();
+		book.setGenre(BookGenre.valueOf(name));
+
+		String email = (String) session.getAttribute("name");
+
+		User user = userService.getUserByEmail(email);
+
+		service.saveBook(book);
+		service.saveBookUser(book, user);
+
 		return  "redirect:/books";
 	}
 
-	@GetMapping("/book/edit/{id}")
-	public String getSingleBook(@PathVariable("id") Long id, Model model) {
-		
+	@GetMapping("/books")
+	public String getAllBooks(Model model) {
+
+		List<Book> books = service.getAllBooks();
+
+		BookDTOService dtoService = new BookDTOService();
+		model.addAttribute("books", dtoService.getBooks(books));
+
+		model.addAttribute("message", email);
+		return "book";
+	}
+
+	@GetMapping("/books/{id}")
+	public String update_Book(@PathVariable("id") Long id, Model model) {
+
 		model.addAttribute("book",service.getBookById(id));
 		return "update";
 	}
 
-	@PostMapping("/book/{id}")
-	public String updateBook(@PathVariable("id") Long id,  @ModelAttribute("book") Book book,Model model) {
-		service.updateBook(book, id);
-		return  "redirect:/books";
-	}
-	@GetMapping("/book/{id}")
-	public String DeleteBook(@PathVariable("id") Long id) {
-		service.deleteBook(id);
+	@PostMapping("/books/{id}")
+	public String save_updated_Book(@Valid @ModelAttribute("book") Book book, @PathVariable("id") Long id, BindingResult result) {
+
+        if(result.hasErrors()) {
+			return "redirect:/books/{id}";
+		}
+
+		try {
+			service.updateBook(book, id);
+		}catch (ValidationException e){
+			e.getMessage();
+		}
 		return "redirect:/books";
 	}
-	@GetMapping("/book/save/{id}")
-	public String SaveBooks(@PathVariable("id") Long id, Model model) {
-		Collection<Book> books= service.saveBooks(id);
-		model.addAttribute("books", books);
-		return "savedBooks";
-	}
-	@GetMapping("/")
-	public String loginUser(Model model) {
-		User user= new User();
-		model.addAttribute("loginForm", user);
-		return "index";
-	}
-	@PostMapping("/user")
-	public String validateUser(@Valid @ModelAttribute(name="loginForm") User user, BindingResult result, Model model, HttpSession session) {    //, HttpServletRequest request) {
-		if(result.hasErrors())
-			return "index";
-		String email = user.getEmail();
-		String password = user.getPassword();
-		Optional<User> optionalUser = service.authenticate(email, password);
-		session.setAttribute("name", email);
-		if(optionalUser.isPresent()) {
-			if (passwordEncoder.matches(password,optionalUser.get().getPassword()))
-				return "redirect:/books";
+
+	@GetMapping("/books/resource/{id}")
+	public String delete_Book(@PathVariable("id") Long id, Model model) {
+
+		int result = service.deleteBook(id);
+        if(result > 0) {
+			bookmarks.remove(id);
+			return "redirect:/books";
 		}
-		model.addAttribute("error", "Incorrect password Please try again");
-		return "index";
-	}
-	@GetMapping("/user/new")
-	public String AddUser(Model model) {
-		User user= new User(); 
-		model.addAttribute("registrationForm", user);
-		return "register";
-	}
-	
-	@PostMapping("/registration")
-	public String RegisterUser(@Valid @ModelAttribute(name="registrationForm") User user, BindingResult result) {
-		if(result.hasErrors())
-			return "register";
-		service.saveUser(user);
-		return "redirect:/user/new?success";
+        model.addAttribute("error", "There are no books in the books library. Please add one.");
+        return "add-book";
 	}
 
-	@GetMapping("/logout")
-	public String logoutUser(Model model) {
-		User user= new User();
-		model.addAttribute("loginForm", user);
-		return "index";
+	// Bookmarking
+	@GetMapping("/books/bookmark/{id}")
+	public String bookmark_Book(@PathVariable("id") Long id, Model model) {
+
+		Book book = service.saveBooks(id);
+
+		BookDTOService dtoService = new BookDTOService();
+		bookmarks.put(id, dtoService.getBook(book));
+		model.addAttribute("books", bookmarks.values());
+
+		return "savedBooks";
+	}
+
+	@GetMapping("/books/bookmarks")
+	public String bookmarked_ByUser(Model model) {
+
+		model.addAttribute("books", bookmarks.values());
+		return "savedBooks";
 	}
 }
+
 
 
 

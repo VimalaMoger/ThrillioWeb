@@ -1,45 +1,57 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
-<meta charset="ISO-8859-1">
-<title>Login Form</title>
-<link th:href="@{/css/style.css}" rel="stylesheet">
-    <style>
-        .error {
-            color: red;
-        }
-    </style>
-</head>
-<body> 
-    <div class="container">
-      <div class="wrapper">
-        <div class="title"><span>Login Form</span></div>
-        <br>
-          <p th:if="${error}" th:text="${error}" class="error">No error</p>
-        <div class="row">
-          <form th:action="@{/user}" th:object="${loginForm}" method="post">
-              <div class="form-group">
-                  <label>User Email</label>
-                  <input type ="text" name ="email" th:field="*{email}" required />
-                  <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error" ></span></div>
-                 <br>
-              <div class="form-group">
-                  <label> User password</label>
-                  <input type ="text" name ="password" th:field="*{password}" required /></div>
-                <div class="row button">
-                    <input type="submit" value="Login">
-                </div>
-                <div  class="form-group">
-                    <span> New User? <a  th:href="@{/user/new}" >Register here</a></span>
-                </div>
-               <label>
-                   <input type="checkbox" name="remember-me" />remember me
-               </label>
-          </form>
+<html xmlns: xmlns:th="http://www.w3.org/1999/xhtml" th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Login Form</title>
+        <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    </head>
+    <body>
+        <div class="container">
+          <div class="wrapper">
+            <h1 id="banner">Login Form</h1>
+            <br>
+
+            <div class="row">
+
+              <form th:action="@{/users}" th:object="${loginForm}" method="post">
+
+                  <p th:if="${error}" th:text="${error}" class="error"></p>
+
+                  <p th:if="${logout}" th:text="${logout}" class="logout"></p>
+
+                  <br>
+
+                  <div class="form-group">
+                      <label>User Email</label>
+                      <input type="text" name="email" th:field="*{email}" placeholder="E-mail" required />
+
+                      <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error" ></span>
+                  </div>
+                  <br>
+                  <div class="form-group">
+                      <label> User password</label>
+                      <input type ="password" name ="password" th:field="*{password}" required />
+                  </div>
+
+                  <div class = "form-group">
+                      <button type="submit" class = "btn btn-primary" > Login </button>
+                  </div>
+
+                  <br>
+
+                  <div class="thickLine"> </div>
+
+                    <div  class="form-group">
+                        <span> New User? <a  th:href="@{/users/new}" >Register here</a></span>
+                    </div>
+                   <label>
+                       <input type="checkbox" name="remember-me" />remember me
+                   </label>
+              </form>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-</body>
+    </body>
 </html>
 
 

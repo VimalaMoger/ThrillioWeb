@@ -1,44 +1,86 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">  <!-- thymeleaf engine -->
-<head>
-<meta charset="ISO-8859-1">
-<title>Book Management System</title>
-<link th:href = "@{/css/main.css}"  rel ="stylesheet"> <!--  @ is context path of our application--> 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-<script type="text/javascript" th:src= "@{/js/actions.js}"></script>
-</head>
-<body>
-	<div class="container">
-	 <div class="row">
-	 <div class ="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
-	 	<h1 class= "text-center"> Create New Book</h1>
-	 	<div class= "card-body">
-	 	<form th:action="@{/book}"  th:object ="${book}" method="POST">
-		 	<div class="form-group">
-		 	<label> Book Title</label>
-		 	<input type ="text" name ="title" th:field="*{title}" class="form-control" placeholder = "Enter book title" /></div>
-		 	<div class="form-group">
-		 	<label> Book image_url</label>
-		 	<input type ="text" name ="image_url" th:field="*{image_url}" class="form-control" placeholder = "Enter book image_url" /></div>
-		 	<div class="form-group">
-		 	<label> Book genre</label>
-		 	<input type ="text" name ="genre" th:field="*{genre}" class="form-control" placeholder = "Enter book genre" /></div>
-		 	<div class="form-group">
-		 	<label> Book publication_year</label>
-		 	<input type ="text" name ="publicationYear" th:field="*{publicationYear}" class="form-control" placeholder = "Enter publicationYear" /></div>
-		 	<div class="form-group">
-		 	<label>Book publisherId</label>
-		 	<input type ="text" name ="publisherId" th:field="*{publisherId}" class="form-control" placeholder = "Enter publisherId" /></div>
-		 	<div class="form-group">
-		 	<label>Book amazon_rating</label>
-		 	<input type ="text" name ="amazon_rating" th:field="*{amazonRating}" class="form-control" placeholder = "Enter amazon_rating" /></div>
-		 	<div class="box-footer">
-		 	<button type="submit" class ="btn btn-primary">Submit</button>
-		 	</div>
-	 	</form>
-	 	</div>
-	  </div>
-	 </div>
-	</div>
-</body>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Book Management System</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link rel="stylesheet" th:href="@{/css/styles.css}">
+        <script type="text/javascript" th:src="@{/js/appActions.js}"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div style="text-align:center;">
+                    <h1 id="banner"> Add a new Book </h1>
+                    <p> - please enter the required fields</p><p class="book-icon">  - book category in capital letters like ART, TECHNICAL, CHILDREN..</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6" style="text-align:right;font-weight:bold;color:purple">
+                    <p th:if = "${session.containsKey('name')}" th:text = "${session.name}"></p>
+                </div>
+                <div class="col-md-6">
+                    <a th:href="@{/users/logout}" class="btn btn-primary pull-right">Logout</a>
+                </div>
+            </div>
+
+            <br>
+            <div class="thickLine"> </div>
+            <br>
+
+            <div class="row">
+                 <p th:if="${error}" th:text="${error}" class="error">No error</p>
+                 <div class= "card-body">
+                     <form id="myForm" th:action = "@{/books/new}"  th:object ="${book}" method="POST">
+
+                         <div class="form-group">
+                             <label> Book Title</label>
+                             <input type ="text" name ="title" th:field="*{title}" class="form-control" placeholder = "Enter Book Title" pattern="[a-z0-9]{1, 12}" required/>
+                         </div>
+
+                         <div class="form-group">
+                             <label> Book image_url</label>
+                             <input type ="text" name ="image_url" th:field="*{image_url}" class="form-control" placeholder = "https://image.jpg/png/jpeg/gif/bmp/webp format" pattern="(https?:\/\/.*\.(?:png|jpg|jpeg|gif|bmp|webp))" required />
+                         </div>
+
+                         <div class="form-group">
+                             <label> Book genre</label>
+                             <input type ="text" name ="genre" th:field="*{genre}" class="form-control" placeholder = "Enter a category- book belongs to- Uppercase Only" pattern = "^[A-Z]+$" required />
+                         </div>
+
+                         <div class="form-group">
+                             <label> Book publication_year</label>
+                             <input type ="text" name ="publicationYear"  th:field="*{publicationYear}" class="form-control" placeholder="Values in (1700-2029)" pattern="^(17|18|19)\d{2}$|20[012]\d" maxlength="4" required />
+                         </div>
+
+                         <div class="form-group">
+                             <label>Book amazon_rating</label>
+                             <input type ="text" name ="amazon_rating" th:field="*{amazonRating}" class="form-control" placeholder="Accept values in (1.0 - 5.0)" pattern="^([1234]){1}(\.\d{1})?$|5\.[0]"  maxlength="3" required />
+                         </div>
+
+                         <div class="form-group">
+                               <label>Authors:</label>
+                               <div id="input-container-a"></div><br>
+                               <button id="addFieldButton-a">Add Author</button>
+                         </div>
+                         <div class="form-group">
+                               <label>Publishers:</label>
+                               <div id="input-container-b"></div><br>
+                               <button id="addFieldButton-b">Add Publisher</button>
+                         </div>
+<!--                         <input type="text" name="publishers[2].name" />-->
+
+                         <div class="thickLine"> </div>
+                         <br>
+
+                         <div class="box-footer" style="display: flex; justify-content: space-between">
+                             <button type="submit" class ="btn btn-primary">Submit</button>
+                             <a href="javascript:history.back()" class="btn btn-primary btn-sm mb-3">Previous page</a>
+                         </div>
+                     </form>
+                 </div>
+            </div>
+        </div>
+    </body>
 </html>

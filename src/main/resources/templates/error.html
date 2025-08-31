@@ -1,15 +1,19 @@
-<!--<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Page Not Found</title>
-</head>
-<body>
-<h1>There's no page here!</h1>
-<p>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Error</title>
+        <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+    </head>
+    <body>
+        <h2>Something went wrong!</h2>
+        <div class="thickLine"> </div>
+        <p class="err"><strong>Status:</strong> <span th:text="${status}"></span></p>
+        <p class="err"><strong>Message:</strong> <span th:text="${message}"></span></p>
+        <p class="err"><strong>Exception:</strong> <span th:text="${exception}"></span></p>
 
-    We're sorry, the page you are looking for does not exist!
-    Go back to <a href="/">home page</a>.
-</p>
-</body>
-</html>-->
+        <div class="err">
+            <a href="javascript:history.back()" class="btn btn-primary btn-sm mb-3">Previous page</a>
+        </div>
+    </body>
+</html>

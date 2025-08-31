@@ -1,56 +1,63 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
-<meta charset="ISO-8859-1">
-<title>Registration Form</title>
-<link th:href="@{/css/style.css}" rel="stylesheet">
-	<style>
-		.error {
-            color: red;
-        }
-    </style>
-</head>
-<body> 
-    <div class="container">
-      <div class="wrapper">
-        <div class="title"><span>Registration Form</span></div>
-     	 <br>
-		  <div th:if="${param.success}" class="text-primary">
-					<div  align="center">You have been successfully registered!</div>
-				  </div>
-          <div class="row">
-             <form th:action="@{/registration}" th:object="${registrationForm}" method="post">
-				   <div class="form-group">
-				 	<label>User Email</label>
-					   <input type ="text" name ="email" th:field="*{email}" required />
-					   <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error" ></span></div>
-					<div class="form-group">
-				 	<label> User password</label>
-				 		<input type ="text" name ="password" th:field="*{password}" required /></div>
-				 	<div class="form-group">
-				 	<label> User FirstName</label>
-				 		<input type ="text" name ="firstName" th:field="*{firstName}" required  /></div>
-				    <div class="form-group">
-				 	<label>User LastName</label>
-				 		<input type ="text" name ="lastName" th:field="*{lastName}" required /></div>
-				 	<div class="form-group">
-				 	<label> User created_date</label>
-				 		<input type ="text" name ="created_date" th:field="*{created_date}"   /></div>
-				 	<div class="form-group">
-					<label> User Gender</label>
-				 		<input type ="text" name ="gender" th:field="*{gender}"  /></div>
-				 	<div class="form-group">
-				 	<label> User userType</label>
-				 		<input type ="text" name ="userType" th:field="*{userType}"  required /></div>
-				 
-				 	 <div  class="form-group">
-				 		<button type="submit" class ="btn btn-primary">Register</button>
-			       		<span> Already registered ?<a href="/" th:href= "@{/}">Login here</a></span>
-			        </div>
-        	</form>
+<html xmlns:th = "http://www.thymeleaf.org" lang = "en">
+	<head>
+		<meta charset="UTF-8" />
+		<title> Registration Form </title>
+		<link rel="stylesheet" th:href="@{/css/styles.css}" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+	</head>
+	<body>
+		<div class = "container">
+		  <div class = "wrapper">
+			<h1 id="banner"> Registration Form </h1>
+			 <br>
+			  <div class="thickLine"> </div>
+
+			  <div>
+				  <span th:if="${param.success}" style="color:green"><strong>You have been successfully registered!</strong></span>
+			  </div>
+
+			  <br>
+
+			  <div class = "row">
+				 <form th:action="@{/users/new}" th:object="${registrationForm}" method="post">
+					 <p th:if="${error}" th:text="${error}" class="error"></p>
+
+					   <div class="form-group">
+							<label>User Email</label>
+						   <input type="email" name="email" th:field="*{email}" placeholder="example@xyz.in" required/>
+						   <p th:if="${#fields.hasErrors('email')}" class="error" th:errors="*{email}">Email</p>
+					    </div>
+						<br>
+
+						<div class = "form-group">
+							<label> User password </label>
+							<input type="password" name="password" th:field="*{password}" required />
+						</div>
+						<br>
+
+						<div class = "form-group">
+							<label> User FirstName </label>
+							<input type = "text" name = "firstName" th:field = "*{firstName}" placeholder="Only letters" pattern="^[a-zA-Z]+$" required />
+						</div>
+					    <br>
+
+						<div class = "form-group">
+							<label> User LastName </label>
+							<input type = "text" name = "lastName" th:field = "*{lastName}" placeholder="Only letters" pattern="^[a-zA-Z]+$" required />
+						</div>
+
+					 	<br>
+					 	<div class="thickLine"> </div>
+
+						 <div class = "form-group">
+							<button type="submit" class = "btn btn-primary" > Register </button>
+							<span> Already registered ? <a th:href= "@{/}"> Login here </a></span>
+						</div>
+				</form>
+			  </div>
 		  </div>
-      </div>
-    </div>
-  </body>
+		</div>
+	</body>`
 </html>
 

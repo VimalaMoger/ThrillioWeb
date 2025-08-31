@@ -1,0 +1,30 @@
+#version: '3.8'
+services:
+  app:
+    image: book-v1
+    mem_limit: 512m
+    ports:
+      - "8080:8080"
+    environment:
+       DB_HOST: san-mysql
+       DB_PORT: 3306
+       DB_URL: JDBC:MYSQL://san-mysql:3306/book_db?createDatabaseIfNotExists=true&serverTimezone=UTC
+       DB_USER: root
+       DB_PASSWORD: passworD$123!
+       DB_NAME: book_db
+    depends_on:
+      san-mysql:
+          condition: service_healthy
+  san-mysql:
+    image: mysql
+    container_name: mysql_container
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: passworD$123!
+      MYSQL_PASSWORD: passworD$123!
+      MYSQL_DATABASE: book_db
+    healthcheck:
+      test: [ "CMD", "mysqladmin","ping","-h","localhost" ]
+      timeout: 10s
+      retries: 10

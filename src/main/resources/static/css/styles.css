@@ -1,0 +1,93 @@
+p {
+	font-family : sans-sarif;
+}
+
+h1 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 3rem;
+    font-weight: 500;
+    background: linear-gradient(90deg, rgb(255,0,40), rgb(0,255,150));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 20px 0;
+}
+
+h2 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 3rem;
+    font-weight: 500;
+    justify-content: flex-start;
+    background: linear-gradient(90deg, rgb(255,0,40), rgb(0,255,150));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 20px 0;
+}
+
+h5 {
+    font-family: 'Georgia', serif;
+    font-size: 2rem;
+    color: #222;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    margin: 30px 0;
+}
+
+.err {
+    text-align: center;
+}
+
+.error  {
+    color: red;
+}
+
+.thickLine {
+    background-color:gradient;
+    color: green;
+	border: 6px solid rgb(68, 54, 36);
+    z-index: 1;
+	box-shadow: 8px 16px 16px red;
+}
+
+#banner {
+    width:600px;
+    height: 50px;
+    text-align: center;
+    border: solid 2px;
+    margin:auto;
+    border-radius: 4rem;
+    box-shadow: 0 0 10px rgb(224, 34, 177);
+}
+
+html, body {
+    display: grid;
+    height: 2em;
+    place-items: center;
+}
+
+button {
+    background-color: #4CAF60;
+    border-radius: 30%;
+    cursor: pointer;
+    width: 80px;
+    height: 40px;
+    border: 1em;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+button:active {
+    color:green;
+    background:beige;
+}
+
+.book-icon::after {
+    content: "\1F4DA";
+    font-size: 24px;
+}
+
+strong {
+	font-weight : 700;
+	background-color : yellow;
+}

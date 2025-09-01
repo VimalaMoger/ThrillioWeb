@@ -1,4 +1,4 @@
-package com.moger.demo.entities;
+package com.moger.demo.DTOs;
 
 import com.moger.demo.dataConstants.BookGenre;
 import lombok.Data;

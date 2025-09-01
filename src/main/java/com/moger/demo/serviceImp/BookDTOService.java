@@ -1,8 +1,8 @@
 package com.moger.demo.serviceImp;
 
+import com.moger.demo.DTOs.BookDTO;
 import com.moger.demo.entities.Author;
 import com.moger.demo.entities.Book;
-import com.moger.demo.entities.BookDTO;
 import com.moger.demo.entities.Publisher;
 import java.util.ArrayList;
 import java.util.List;

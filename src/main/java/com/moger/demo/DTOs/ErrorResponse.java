@@ -1,4 +1,4 @@
-package com.moger.demo.entities;
+package com.moger.demo.DTOs;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

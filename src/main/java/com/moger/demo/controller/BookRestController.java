@@ -30,6 +30,9 @@ public class BookRestController {
     @GetMapping(value = "/books/{id}")
     public Book getBook(@PathVariable long id) {
 
+        if(id > bookService.getAllBooks().size())
+            throw new BookNotFoundException(String.format("Book with %d not found",id));
+
         return bookService.getBookById(id);
     }
 

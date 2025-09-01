@@ -1,6 +1,6 @@
 package com.moger.demo.exception;
 
-import com.moger.demo.entities.ErrorResponse;
+import com.moger.demo.DTOs.ErrorResponse;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

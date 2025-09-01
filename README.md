@@ -23,7 +23,7 @@
 ### springdoc-openapi
    - Used the library to automate the generation of API documentation
    - Configured custom path for swagger UI and api docs
-    <!--https://vimalamoger.github.io/ThrillioWeb/  -->
+    https://vimalamoger.github.io/ThrillioWeb/  
 
 ### Custom Validators - <b style="color:grey;">Validator</b>
   - Implemented a custom UserValidator for email in User class 

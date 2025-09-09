@@ -4,7 +4,7 @@ info:
   version: v0
 servers:
 # - url: http://localhost:8080
-- url: https://book-v8.onrender.com/
+- url: https://book-v8.onrender.com/swagger-ui/index.html
   description: Generated server url
 paths:
   /api/books/{id}:

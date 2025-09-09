@@ -23,7 +23,8 @@
 ### springdoc-openapi
    - Used the library to automate the generation of API documentation
    - Configured custom path for swagger UI and api docs
-    <!-- https://vimalamoger.github.io/ThrillioWeb/  -->
+
+     https://vimalamoger.github.io/ThrillioWeb/  
 
 ### Custom Validators - <b style="color:grey;">Validator</b>
   - Implemented a custom UserValidator for email in User class 
@@ -40,8 +41,8 @@
   - Books display page with additional action features
 
 ### App View
-<!-- [onRender](https://book-v8.onrender.com/?target="_blank") -->
-<a href="https://book-v8.onrender.com/" target="_blank">onRender</a>
+[onRender](https://book-v8.onrender.com/)
+<!-- <a href="https://book-v8.onrender.com/" target="_blank">onRender</a> -->
 
 ### Build commands 
 ``` to build - start the service - display app ```

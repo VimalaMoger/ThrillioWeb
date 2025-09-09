@@ -40,7 +40,8 @@
   - Books display page with additional action features
 
 ### App View
-[onRender](https://book-v8.onrender.com/?target="_blank")
+<!-- [onRender](https://book-v8.onrender.com/?target="_blank") -->
+<a href="https://book-v8.onrender.com/" target="_blank">onRender</a>
 
 ### Build commands 
 ``` to build - start the service - display app ```

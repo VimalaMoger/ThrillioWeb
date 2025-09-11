@@ -23,7 +23,7 @@
 ### springdoc-openapi
    - Used the library to automate the generation of API documentation
    - Configured custom path for swagger UI and api docs   
-    <!-- [SwaggerBookAPIDocs](https://book-v8.onrender.com/swagger-ui/index.html)  -->
+      [SwaggerBookAPIDocs](https://book-v9.onrender.com/swagger-ui/index.html)  
 
 ### Custom Validators - <b style="color:grey;">Validator</b>
   - Implemented a custom UserValidator for email in User class 
@@ -40,7 +40,7 @@
   - Books display page with additional action features
 
 ### App View
-[onRender](https://book-v8.onrender.com/)
+[onRender](https://book-v9.onrender.com/)
 <!-- <a href="https://book-v8.onrender.com/" target="_blank">onRender</a> -->
 
 ### Build commands 

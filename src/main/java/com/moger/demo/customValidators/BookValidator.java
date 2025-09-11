@@ -1,6 +1,6 @@
 package com.moger.demo.customValidators;
 
-import com.moger.demo.dataConstants.BookGenre;
+import com.moger.demo.dataconstants.BookGenre;
 import com.moger.demo.entities.Book;
 import com.moger.demo.exception.MethodArgumentNotValidException;
 import org.springframework.stereotype.Component;
@@ -33,6 +33,5 @@ public class BookValidator implements Validator {
         if (book.getGenre().toString()== null) {
             err.rejectValue("genre", "It can not be empty");
         }
-
     }
 }

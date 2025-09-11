@@ -3,16 +3,17 @@
 	xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
     <persistence-unit  name= "jpa-tutorials">
-    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+    	<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
     
         <properties>
-       		 <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-       		 <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://san-mysql/book_db"/>
-       		 <property name="jakarta.persistence.jdbc.user" value="root"/>
+      		 <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+			 <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/book_db"/>
+			 <property name="jakarta.persistence.jdbc.user" value="root"/>
        		 <property name="jakarta.persistence.jdbc.password" value="password"/>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
        		 <property name="hibernate.show_sql" value="true"/>
        		 <property name="hibernate.format_sq" value="true"/>
-       		<!--  <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>  -->
         </properties>
         
     </persistence-unit>

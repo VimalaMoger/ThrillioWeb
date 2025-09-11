@@ -3,7 +3,7 @@ package com.moger.demo.serviceImp;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.moger.demo.config.AppConfig;
-import com.moger.demo.dataConstants.Gender;
+import com.moger.demo.dataconstants.Gender;
 import com.moger.demo.entities.Book;
 import com.moger.demo.entities.User;
 import com.moger.demo.exception.DataAlreadyExistsException;

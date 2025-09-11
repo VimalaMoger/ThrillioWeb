@@ -1,6 +1,6 @@
 package com.moger.demo.DTOs;
 
-import com.moger.demo.dataConstants.BookGenre;
+import com.moger.demo.dataconstants.BookGenre;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.util.List;

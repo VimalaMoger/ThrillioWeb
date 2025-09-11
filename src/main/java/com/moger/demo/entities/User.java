@@ -1,6 +1,6 @@
 package com.moger.demo.entities;
 
-import com.moger.demo.dataConstants.Gender;
+import com.moger.demo.dataconstants.Gender;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;

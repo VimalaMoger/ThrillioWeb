@@ -1,4 +1,4 @@
-package com.moger.demo.dataConstants;
+package com.moger.demo.dataconstants;
 
 public enum UserType {
 	

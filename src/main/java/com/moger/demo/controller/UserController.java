@@ -96,7 +96,6 @@ public class UserController {
         if (result.hasErrors()) {
             model.addAttribute("error", "Invalid email or password");
             return "redirect:/users/new";
-            //return "register";
         }
         userService.saveUser(user);
         return "redirect:/users/new?success";

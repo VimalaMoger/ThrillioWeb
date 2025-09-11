@@ -9,10 +9,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
 
 @ControllerAdvice
 public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
@@ -54,14 +51,12 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler
-    public ResponseEntity<?> constraintViolationException(ConstraintViolationException ex, WebRequest request, Model model) {
-        List<String> errors = new ArrayList<>();
+    public ResponseEntity<Object> constraintViolationException(ConstraintViolationException ex, WebRequest request, Model model) {
 
-        ex.getConstraintViolations().forEach(cv -> errors.add(cv.getMessage()));
-
-        Map<String, List<String>> result = new HashMap<>();
-
-        result.put("errors", errors);
+        ErrorResponse result = new ErrorResponse();
+        result.setStatus(HttpStatus.BAD_REQUEST.value());
+        result.setMessage(ex.getMessage());
+        result.setTime(System.currentTimeMillis());
 
         return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
     }

@@ -1,21 +1,23 @@
 package com.moger.demo.util;
 
+import com.moger.demo.config.AppConfig;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
 public class QueryData {
 
-	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+	private AppConfig config;
+	String encodedPassword;
 
-    private String password = "test";
+	public QueryData(AppConfig appConfig) {
+		this.config = appConfig;
+		encodedPassword = config.passwordEncoder().encode(config.userPassword);
+	 }
 
-	String encodedPassword = encoder.encode(password);
-	
-	public void loadData() {
+    public void loadData() {
 		String sqlUser = "INSERT INTO user(email, password, first_name, last_name, gender_id, user_type_id, created_date) values('user0@semanticsquare.com', :password, 'John', 'M', 0, 0, NOW()), ('user1@semanticsquare.com', :password,'Sam', 'M', 0, 0, NOW()),('user2@semanticsquare.com', :password, 'Anita', 'M', 1, 1, NOW()),('user3@semanticsquare.com', :password, 'Sara', 'M', 1, 1, NOW()),('user4@semanticsquare.com', :password, 'Dheeru', 'M', 0,2, NOW())";
 		String sqlPublisher = "INSERT INTO publisher(name) values('Wilder'),('Dover Publications'),('Touchstone'),('O''Reilly Media'),('Prentice Hall')";
 		String sqlAuthor = "INSERT INTO author(name) values('Henry David Thoreau'),('Ralph Waldo Emerson'),('Lillian Eichler Watson'),('Eric Freeman'),('Bert Bates'),('Kathy Sierra'), ('Elisabeth Robson'),('Joshua Bloch')";

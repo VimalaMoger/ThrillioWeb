@@ -2,6 +2,7 @@ package com.moger.demo.serviceImp;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.moger.demo.DTOs.BookPartialDTO;
 import com.moger.demo.config.AppConfig;
 import com.moger.demo.entities.*;
 import com.moger.demo.exception.BookNotFoundException;
@@ -65,17 +66,13 @@ public class BookServiceImpl implements BookService {
     @Override
     public Book getBookById(Long id) throws BookNotFoundException, MethodArgumentNotValidException {
 
-        List<Book> books = getAllBooks();
-        if(id == null || id <= 0){
-            throw new MethodArgumentNotValidException(String.format("Book with %d you entered is not valid", id));
-        }
-
         Session session = em.unwrap(Session.class);
         TypedQuery<Book> query = session.createQuery("FROM Book  WHERE id = ?1 ", Book.class);
         query.setParameter(1, id);
         Book book = query.getSingleResult();
+
         if (book == null) {
-            throw new BookNotFoundException(String.format("Book with %d not found", id));
+            throw new BookNotFoundException(String.format("Book with id %d not found", id));
         }
         return book;
     }
@@ -84,19 +81,24 @@ public class BookServiceImpl implements BookService {
     @Override
     public Book updateBook(Book book, Long eId) throws BookNotFoundException, MethodArgumentNotValidException {
 
-        Book theBook = getBookById(book.getId());
+        Book theBook = getBookById(eId);
         if (theBook == null) {
-            throw new RuntimeException("Book id not found - " + book.getId());
+            throw new RuntimeException(String.format("Book id %d not found -", eId));
         }
 
+        //child entity - author
         theBook.getAuthors().clear();
-        if (book.getAuthors() != null) {
-            Author author = new Author();
-            theBook.setAuthors(book.getAuthors());
+        List<Author> bookAuthors = book.getAuthors();
+        if (bookAuthors != null) {
+            bookAuthors.stream().forEach(obj -> obj.setId(0));
+            theBook.setAuthors(bookAuthors);
         }
 
+        //child entity - publisher
         theBook.getPublishers().clear();
-        if (book.getPublishers() != null) {
+        List<Publisher> bookPublishers = book.getPublishers();
+        if (bookPublishers != null) {
+            bookPublishers.stream().forEach(obj -> obj.setId(0));
             theBook.setPublishers(book.getPublishers());
         }
 
@@ -112,20 +114,19 @@ public class BookServiceImpl implements BookService {
 
     @Transactional
     @Override
-    public Book partialUpdateBook(Map<String, Object> payload, Long id) {
+    public Book partialUpdateBook(BookPartialDTO payload, Long id) {
 
         Book theBook = getBookById(id);
         if (theBook == null) {
-            throw new RuntimeException("Book id not found - " + id);
-        }
-        if (payload.containsKey("id")) {
-            throw new RuntimeException("Book id not allowed in request body - " + id);
+            throw new RuntimeException(String.format("Book id %d not found -", id));
         }
 
         Book patchBook = apply(payload, theBook);
-        Book book = saveBook(patchBook);
 
-        return book;
+        Book mergedBook = em.merge(patchBook);
+        em.flush();
+
+        return mergedBook;
     }
 
     @Transactional
@@ -134,7 +135,7 @@ public class BookServiceImpl implements BookService {
 
         List<Book> books = getAllBooks();
         if (books.size() == 1){
-            throw new MethodArgumentNotValidException("Sorry, this is the last entry in book-library. You can't delete until you add new one");
+            throw new MethodArgumentNotValidException("Sorry, this is the last entry in book-library. Add a new entry before performing this action");
         }
         Session session = em.unwrap(Session.class);
         session.createNativeMutationQuery("DELETE from book_user WHERE book_id =:id")
@@ -176,8 +177,8 @@ public class BookServiceImpl implements BookService {
           return bk;
         return null;
     }
-
-    private Book apply(Map<String, Object> payload, Book book) {
+    // Partial data to book(Title, image url, publication year
+    private Book apply(BookPartialDTO payload, Book book) {
 
         //convert book object to a JSON object node
         ObjectNode bookNode = objectMapper.convertValue(book, ObjectNode.class);

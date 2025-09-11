@@ -1,9 +1,11 @@
 # Project Contents
 
- - Spring Boot application with Thymeleaf, REST API, JPA and MySQL. 
+### MySQL Database with Spring Data JPA
+
+ - Spring Boot application with Thymeleaf, REST API, Spring Data JPA and MySQL. 
+ - Mapping of Java classes to tables and Java objects to rows with Hibernate - Object Relational Mapping(ORM) framework
  - REST services with Spring MVC CRUD.
  - CRUD actions with multiple entities like book, user, author, publisher and created MyRunner to run a set of sample sql queries as a baseline for our project
-
 
 ### Dependencies needed to run the project
     - spring-boot starter (web, data-jpa, thymeleaf), mysql-connector

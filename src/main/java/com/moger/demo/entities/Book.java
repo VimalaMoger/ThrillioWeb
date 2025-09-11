@@ -1,14 +1,11 @@
 package com.moger.demo.entities;
 
-import com.moger.demo.dataConstants.BookGenre;
+import com.moger.demo.dataconstants.BookGenre;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
@@ -72,6 +69,7 @@ public class Book {
 
 	public void setAuthors(List<Author> theAuthors) {
 		this.authors.clear();
+		theAuthors.stream().forEach(obj -> obj.setId(0));
 		if (theAuthors != null) {
 			this.authors.addAll(theAuthors);
 		}
@@ -79,6 +77,7 @@ public class Book {
 
 	public void setPublishers(List<Publisher> thePublishers) {
 		this.publishers.clear();
+		thePublishers.stream().forEach(obj -> obj.setId(0));
 		if (thePublishers != null) {
 			this.publishers.addAll(thePublishers);
 		}

@@ -1,8 +1,8 @@
 package com.moger.demo.controller;
 
 import com.moger.demo.DTOs.BookDTO;
-import com.moger.demo.dataConstants.BookGenre;
 import com.moger.demo.config.AppConfig;
+import com.moger.demo.dataconstants.BookGenre;
 import com.moger.demo.entities.*;
 import com.moger.demo.service.BookService;
 import com.moger.demo.customValidators.BookValidator;

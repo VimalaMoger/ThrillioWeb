@@ -1,9 +1,9 @@
 package com.moger.demo.service;
 
+import com.moger.demo.DTOs.BookPartialDTO;
 import com.moger.demo.entities.Book;
 import com.moger.demo.entities.User;
 import java.util.List;
-import java.util.Map;
 
 public interface BookService {
 
@@ -15,7 +15,7 @@ public interface BookService {
 
     Book updateBook(Book book, Long id);
 
-    Book partialUpdateBook(Map<String, Object> payload, Long id);
+    Book partialUpdateBook(BookPartialDTO payload, Long id);
 
     int deleteBook(Long id);
 

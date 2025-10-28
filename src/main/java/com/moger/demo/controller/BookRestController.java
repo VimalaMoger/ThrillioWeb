@@ -6,6 +6,8 @@ import com.moger.demo.serviceImp.BookServiceImpl;
 import com.moger.demo.entities.Book;
 import com.moger.demo.exception.BookNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,7 +26,7 @@ public class BookRestController {
     }
 
     @PostMapping(value = "/books")
-    public Book addBook(@RequestBody Book book) {
+    public ResponseEntity<Book> addBook(@RequestBody Book book) {
 
         if (book.getId() != 0) {
             throw new MethodArgumentNotValidException("All IDs updated automatically, id value in the request body must be zero!");
@@ -37,7 +39,7 @@ public class BookRestController {
             throw new MethodArgumentNotValidException("Rating value must be between 1 and 5 inclusive");
         }
 
-        return bookService.saveBook(book);
+        return new ResponseEntity<>(bookService.saveBook(book), HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/books/{id}")
